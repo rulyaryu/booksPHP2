@@ -52,6 +52,7 @@
 	$arrayKeys = ['id', 'imgId', 'imgUrl', 'bookName', 'author', 'catId', 'category'];
 
 	$categoryArr = [];
+	$authorsArr = [];
 
 	if(isset($_GET['q'])) {
 		$src->rewind();
@@ -59,12 +60,13 @@
 			$tmp = str_getcsv($src-> current());
 			if(isset($tmp[4]) && (strripos($tmp[4], $_GET['q']) !== false)) {
 				// echo $tmp . '<br>';
-				$booksDataArr[] = array_combine($arrayKeys, $tmp);
+				$authorsArr[] = array_combine($arrayKeys, $tmp);
 			}
 			$src->next();
+			$booksDataArr = array_slice($authorsArr, $startIdx, $booksOnPage);
 		}
 
-		$max = count($booksDataArr);
+		$max = count($authorsArr);
 		if($max == 0) echo 'No books founded' . '<br>';
 		if ($max % $booksOnPage == 0) 
 		$limitPage = intval($max / $booksOnPage);
